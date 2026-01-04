@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import iconeCoracao from "../assets/coracao.svg"
 // defineProps: Avisa ao Vue que este componente vai receber uma 'imagem' do pai (Inspire.vue)
 defineProps(["imagem"]);
 
@@ -8,43 +9,61 @@ const liked = ref(false)
 
 <template>
     <div class="card">
-        <!-- ícone de favoritar -->
-        <span class="heart" @click="liked = !liked">
-            {{ liked ? "❤️" : "🤍" }}
-        </span>
-        <!-- operador ternario: uma forma mais simples de criar um if/else -->
-        <!-- condição? se_o_valor_for_verdadeiro : valor_falso -->
-        <img :src="imagem" alt="Imagem da Galeria">
+        <img 
+            :src="iconeCoracao" 
+            class="heart-icon" 
+            :class="{ 'is-liked': liked }" 
+            @click="liked = !liked"
+            alt="Favoritar"
+        >
+        <img :src="imagem" alt="Imagem da Galeria" class="main-img">
     </div>
 </template>
 
 <style scoped lang="scss">
 .card {
     position: relative;
-    width: 260px; // Largura fixa aproximada do print
-    height: 400px; // Altura maior para dar o efeito "retrato" do print
+    width: 100%;
+    height: 400px;
+    border-radius: 15px;
     overflow: hidden;
-    border-radius: 12px;
+    cursor: pointer;
 
-    .heart {
+    .heart-icon {
         position: absolute;
         top: 15px;
         right: 15px;
-        font-size: 1.4rem;
-        z-index: 2;
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-        cursor: pointer;
+        width: 26px;
+        z-index: 10;
+        transition: all 0.3s ease;
+        
+        // 1. Estado Normal: Fica Branco
+        filter: brightness(0) invert(1); 
+        opacity: 0.8;
+
+        &.is-liked {
+            opacity: 1;
+            transform: scale(1.2);
+            
+            // 2. Estado Ativo: Filtro que transforma o ícone em ROSA (#E1306C)
+            // Esse filtro calcula a rotação de cores para chegar no rosa exato
+            filter: invert(27%) sepia(91%) saturate(2352%) hue-rotate(323deg) brightness(91%) contrast(93%) !important;
+        }
+
+        &:hover {
+            transform: scale(1.1);
+        }
     }
 
-    img {
+    .main-img {
         width: 100%;
         height: 100%;
-        object-fit: cover; // Crucial para não deformar a foto
-        transition: transform 0.3s ease;
+        object-fit: cover;
+        transition: transform 0.5s ease;
     }
 
-    &:hover img {
-        transform: scale(1.05); // Efeito de zoom profissional ao passar o mouse
+    &:hover .main-img {
+        transform: scale(1.05);
     }
 }
 </style>
