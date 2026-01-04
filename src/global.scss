@@ -1,9 +1,21 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+// global.scss
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --pink-primary: #E1306C;
+    --footer-bg: #fdfdfd;
 }
 
-body{
-    font-family: 'poppins", sans-serif;
+// Quando o body tiver a classe "dark-mode"
+body.dark-mode {
+    --bg-color: #121212;
+    --text-color: #f1f1f1;
+    --footer-bg: #1e1e1e;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease; // Para a mudança de cor ser suave
+    font-family: 'Poppins', sans-serif;
 }
